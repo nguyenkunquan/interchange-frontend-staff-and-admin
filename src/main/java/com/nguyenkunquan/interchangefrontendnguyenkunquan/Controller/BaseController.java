@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BaseController {
     @GetMapping("/create-quotation")
     public String createQuotation() {
-        return "ui-taobaogia";
+        return "quotationmanagement/ui-taobaogia";
     }
 
     @GetMapping("/blog-management")
