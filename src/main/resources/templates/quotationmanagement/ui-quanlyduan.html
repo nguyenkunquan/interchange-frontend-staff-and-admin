@@ -186,15 +186,20 @@
                             <h5 class="card-title fw-semibold mb-4">DANH SÁCH DỰ ÁN</h5>
                             <div>
                                 <form style="align-items: center;" class="display-flex justify-content-right" action="#">
-                                    <label for="requestTime">Request time: </label>
-                                    <input type="date" id="requestTime" name="trip-start" style="margin-right: 641px;"/>
                                     <div>Bộ lọc</div>
                                     <select style="" class="btn" name="" id="status">
-                                        <option value="0">Hiển thị tất cả</option>
-                                        <option value="2">Đang chờ</option>
-                                        <option value="3">Đã tiến hành</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="0">Hiển thị tất cả</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="2">Cập nhật nội thất</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="3">Kiểm duyệt báo giá</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="4">Báo giá nội thất</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="5">Cập nhật thiết kế</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="6">Kiểm duyệt thiết kế</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="7">Hoàn thành thiết kế</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="8">Đang thi công</option>
+                                        <option style="text-transform: lowercase; text-align: left" value="9">Đã thi công</option>
                                     </select>
                                 </form>
+                                <h5 id="title" style="font-size: 18px">Tổng số dự án: </h5>
                             </div>
                             <div class="card no-shadow">
                                 <table class="content-table">
@@ -222,8 +227,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="pagination">
-                                    <ul></ul>
+                                <div class="pagination" id="pagination">
                                 </div>
                             </div>
                         </div>
@@ -243,33 +247,37 @@
     <script th:href="@{/md/staff-js/handle-record.js}"></script>
 
     <script>
+        let statusGlobal;
+        let indexCurrentPage;
         $(document).ready(function () {
-            getToday();
-            getMainProjectWasApproved();
+            statusGlobal = $('#status').val()
+            indexCurrentPage = 0;
+            getMainProjectList(statusGlobal, indexCurrentPage);
         });
-        function getMainProjectWasApproved() {
-            let requestTime = $('#requestTime').val()
+        function getMainProjectList(status, page) {
+            indexCurrentPage = page;
             $.ajax({
-                url: 'http://localhost:8080/api/main-project/was-approved?status=' + $('#status').val() + '&requestTime=' + requestTime,
+                url: 'http://localhost:8080/api/main-project/list?status='+ status +'&page=' + page,
                 method: 'GET',
                 contentType: 'application/json',
                 success: function (resp) {
-                    fillMainProjectWasApproved(resp.data)
+                    fillMainProjectList(resp.data.content)
+                    pagingSearch()
                 }
             });
         }
-        function fillMainProjectWasApproved(list) {
+        function fillMainProjectList(list) {
             let str = "";
             for (let i = 0; i < list.length; i++) {
                 str += '<tr>\n' +
-                    '          <td>'+ 'P' + list[i].mainProjectId +'</td>\n' +
-                    '          <td>' + list[i].customer.userId +'</td>\n' +
-                    '           <td>'+ list[i].staff.userId +'</td>\n' +
-                    '           <td>'+ plusOneDay(list[i].quotations[0].requestTime) +'</td>\n' +
-                    '           <td style="width: 163.2px">' + getStatusName(getStatusNameForMainProjectByListQuotation(list[i].quotations)) +'</td>\n' +
+                    '          <td>'+ 'P' + list[i].main_project_id +'</td>\n' +
+                    '          <td>' + list[i].customer_id +'</td>\n' +
+                    '           <td>'+ list[i].staff_id +'</td>\n' +
+                    '           <td>'+ list[i].create_time +'</td>\n' +
+                    '           <td style="width: 163.2px">' + getStatusName(list[i].status) +'</td>\n' +
                     '           <td class="show-detail">\n' +
                     '           <button type="button" class="btn btn-primary m-1 button-list"><a style="color: aliceblue;"\n' +
-                    '                   onclick="redirectToProjectInformation('+ list[i].mainProjectId +')">Xem chi tiết</a></button>\n' +
+                    '                   onclick="redirectToProjectInformation('+ list[i].main_project_id +')">Xem chi tiết</a></button>\n' +
                     '            </td>\n' +
                     ' </tr>'
             }
@@ -285,24 +293,77 @@
         }
         function getStatusName(status) {
             switch (status) {
+                case 1:
+                    return "Đang chờ nhân viên";
                 case 2:
-                    return "Đang chờ phê duyệt";
+                    return "Cập nhật nội thất";
                 case 3:
-                    return "Đã tiến hành";
+                    return "Kiểm duyệt báo giá";
+                case 4:
+                    return "Báo giá nội thất";
+                case 5:
+                    return "Cập nhật thiết kế";
+                case 6:
+                    return "Kiểm duyệt thiết kế";
+                case 7:
+                    return "Hoàn thành thiết kế";
+                case 8:
+                    return "Đang thi công";
+                case 9:
+                    return "Đã thi công";
                 default:
                     return "";
             }
         }
-        function getStatusNameForMainProjectByListQuotation(quotations) {
-            for (let i = 0; i < quotations.length; i++) {
-                if(quotations[0].status===3) return 3;
-            }
-            return 2;
-        }
 
         $('#status').on('change', function() {
-            getMainProjectWasApproved();
+            statusGlobal = $(this).val()
+            indexCurrentPage = 0;
+            getMainProjectList(statusGlobal, indexCurrentPage);
         });
+
+        function pagingSearch() {
+            $.ajax({
+                url: 'http://localhost:8080/api/main-project/list?status=' + statusGlobal + '&page=' + indexCurrentPage,
+                method: 'GET',
+                contentType: 'application/json',
+                success: function (resp) {
+                    let pagination = $('#pagination');
+                    let totalPage = resp.data.totalPages;
+                    if(totalPage === 0) {
+                        pagination.empty();
+                        $('#title').text('Tổng số dự án: 0')
+                        return;
+                    }
+                    $('#title').text('Tổng số dự án: ' + resp.data.totalElements)
+                    let str = '';
+                    str += '<ul class="pagination">\n' +
+                        '        <li class="page-item">\n' +
+                        '        </li>'
+                    for (let i = 0; i < totalPage; i++) {
+                        str += '<li class="page-item"><a class="page-link" onclick="initSearch(' + i + ')">' + (i+1) +'</a></li>'
+                    }
+                    str += '<li class="page-item">\n' +
+                        '        </li>\n' +
+                        '    </ul>'
+                    pagination.html(str)
+                    $('.page-link').first().attr('style', 'background-color: #64CCC5')
+                }
+            })
+        }
+        function initSearch(index) {
+            indexCurrentPage = index;
+            $('.page-link').attr('style', '')
+            $('.page-link').eq(index).attr('style', 'background-color: #64CCC5')
+            $.ajax({
+                url: 'http://localhost:8080/api/main-project/list?status='+ statusGlobal +'&page=' + index,
+                method: 'GET',
+                contentType: 'application/json',
+                success: function (resp) {
+                    fillMainProjectList(resp.data.content)
+                }
+            })
+        }
 
         function redirectToProjectInformation(mainProjectId) {
             window.location.href = '/project-information?mainProjectId=' + mainProjectId;
@@ -312,24 +373,7 @@
             window.location.href = '/request-management';
         }
 
-        function getToday() {
-            var today = new Date();
-            var day = today.getDate();
-            var month = today.getMonth() + 1;
-            var year = today.getFullYear();
-            if (day < 10) {
-                day = '0' + day;
-            }
-            if (month < 10) {
-                month = '0' + month;
-            }
-            var formattedDate = year + '-' + month + '-' + day;
-            document.getElementById('requestTime').value = formattedDate;
-        }
 
-        $('#requestTime').on('change', function() {
-            getMainProjectWasApproved()
-        });
 
     </script>
 
