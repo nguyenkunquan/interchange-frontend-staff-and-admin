@@ -201,7 +201,7 @@
                                     </div>
                                     <div style="padding: 10px 0;" class="display-flex">
                                         <div>Trạng thái:</div>
-                                        <div style="padding-left: 20px;">Cần được xử lý</div>
+                                        <div id="statusMainProject" style="padding-left: 20px;"></div>
                                     </div>
                                 <div class="content-non-inline">
                                     <div style="padding-top: 20px;" class="content-non-inline">Danh sách báo giá:</div>
@@ -264,6 +264,7 @@
             $('#staffName').text($('#staffName').text() + mainProject.staff.firstName + ' ' + mainProject.staff.lastName);
             $('#customerName').text($('#customerName').text() + mainProject.customer.firstName + ' ' + mainProject.customer.lastName);
             $('#customerPhone').text($('#customerPhone').text() + mainProject.customer.phoneNumber);
+            $('#statusMainProject').text(getStatusName(mainProject.status))
         }
 
         function getQuotationList() {
