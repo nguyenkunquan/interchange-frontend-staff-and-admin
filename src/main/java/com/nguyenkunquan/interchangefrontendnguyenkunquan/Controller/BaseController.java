@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class BaseController {
+
+    //STAFF
     @GetMapping("/create-quotation")
     public String createQuotation() {
         return "quotationmanagement/ui-taobaogia";
@@ -33,6 +35,17 @@ public class BaseController {
     @GetMapping("/quotation-information")
     public String quotationInformation() {
         return "quotationmanagement/ui-thongtinbaogia";
+    }
+
+    //ADMIN
+    @GetMapping("/approve-quotation")
+    public String approveQuotation() {
+        return "admin/ui-kiemduyetbaogia";
+    }
+
+    @GetMapping("/approve-quotation/view-quotation")
+    public String viewQuotation() {
+        return "admin/ui-xembaogia";
     }
 
 }
