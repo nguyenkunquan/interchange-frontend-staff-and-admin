@@ -869,6 +869,9 @@
         function redirectToProjectInformation() {
             window.location.href = '/project-information?mainProjectId=' + mainProjectId;
         }
+        $('#exampleModal').on('hidden.bs.modal', function () {
+            redirectToProjectInformation();
+        });
 
 
         // FILL THÔNG TIN TỪ LAST QUOTATION
