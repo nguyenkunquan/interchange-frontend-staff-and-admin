@@ -31,8 +31,8 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./ui-staff-home.html" class="text-nowrap logo-img">
-                        <img th:href="@{/md/staff-images/logos/dark-logo.svg}" width="180" alt="" />
+                    <a class="text-nowrap logo-img">
+                        <img th:src="@{/md/staff-images/logos/dark-logo.svg}" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -41,14 +41,6 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-staff-home.html" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-layout-dashboard"></i>
-                                </span>
-                                <span class="hide-menu">Dashboard</span>
-                            </a>
-                        </li>
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Quản lý người dùng</span>
@@ -63,12 +55,12 @@
                             <span class="hide-menu">Quản lý dự án</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-quanlypheduyet.html" aria-expanded="false">
+                            <a class="sidebar-link" th:href="@{/request-management}" aria-expanded="false">
                                 <span class="hide-menu no-icon">Quản lý yêu cầu</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-quanlyduan.html" aria-expanded="false">
+                            <a class="sidebar-link" th:href="@{/project-management}" aria-expanded="false">
                                 <span class="hide-menu no-icon">Quản lý dự án</span>
                             </a>
                         </li>
@@ -93,7 +85,7 @@
                         </li>
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Quản lý dự án mẫu, thiết kế, nội thất</span>
+                            <span class="hide-menu">Quản lý thiết kế mẫu, blog</span>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./ui-quanlythietkenoithatmau.html" aria-expanded="false">
@@ -101,20 +93,8 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-quanlyblog.html" aria-expanded="false">
+                            <a class="sidebar-link" th:href="@{/blog-management}" aria-expanded="false">
                                 <span class="hide-menu no-icon">Quản lý blog</span>
-                            </a>
-                        </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Rời</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-dangnhap.html" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-login"></i>
-                                </span>
-                                <span class="hide-menu">Đăng xuất</span>
                             </a>
                         </li>
                     </ul>
@@ -290,7 +270,7 @@
                     '                                        <td>' + getStatusName(quotations[i].status) +'</td>\n' +
                     '                                        <td class="show-detail">\n' +
                     '                                            <button type="button" class="btn btn-primary m-1 button-list"><a style="color: aliceblue;"\n' +
-                    '                                                onclick="redirectToQuotationInformation('+ quotations[i].quotationId +')">Xem chi tiết</a></button>\n' +
+                    '                                                onclick="redirectToQuotationInformation(' + quotations[i].quotationId + ', \'' + quotations[i].status + '\')">Xem chi tiết</a></button>\n' +
                     '                                        </td>\n' +
                     '                                    </tr>'
             }
@@ -330,8 +310,11 @@
             }
         }
 
-        function redirectToQuotationInformation(quotationId) {
-            window.location.href = '/quotation-information?mainProjectId=' + mainProjectId + '&quotationId=' + quotationId;
+        function redirectToQuotationInformation(quotationId, status) {
+            if(status==="2") {
+                window.location.href = '/update-quotation?mainProjectId=' + mainProjectId + '&quotationId=' + quotationId;
+            }
+            else window.location.href = '/quotation-information?mainProjectId=' + mainProjectId + '&quotationId=' + quotationId;
         }
 
     </script>

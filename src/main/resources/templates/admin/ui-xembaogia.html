@@ -31,7 +31,7 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./ui-staff-home.html" class="text-nowrap logo-img">
+                    <a href="./admin-ui-admin-workspace.html" class="text-nowrap logo-img">
                         <img th:src="@{/md/staff-images/logos/dark-logo.svg}" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -42,43 +42,43 @@
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./admin-ui-admin-workspace.html" aria-expanded="false">
-                              <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                              </span>
-                                <span class="hide-menu">Dashboard</span>
+                            <a class="sidebar-link" th:href="@{/approve-quotation}" aria-expanded="false">
+                          <span>
+                            <i class="ti ti-layout-dashboard"></i>
+                          </span>
+                                <span class="hide-menu">Phê duyệt báo giá</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" th:href="@{/approve-design}" aria-expanded="false">
+                          <span>
+                            <i class="ti ti-layout-dashboard"></i>
+                          </span>
+                                <span class="hide-menu">Phê duyệt thiết kế</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./admin-ui-quanlynhanvien.html" aria-expanded="false">
-                              <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                              </span>
+                          <span>
+                            <i class="ti ti-layout-dashboard"></i>
+                          </span>
                                 <span class="hide-menu">Quản lý nhân viên</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./admin-ui-quanlythietke.html" aria-expanded="false">
-                              <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                              </span>
-                                <span class="hide-menu">Quản lý thiết kế</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./admin-ui-quanlybaogia.html" aria-expanded="false">
-                              <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                              </span>
-                                <span class="hide-menu">Quản lý báo giá</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
                             <a class="sidebar-link" href="./admin-ui-quanlynhacungcap.html" aria-expanded="false">
-                              <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                              </span>
+                          <span>
+                            <i class="ti ti-layout-dashboard"></i>
+                          </span>
                                 <span class="hide-menu">Quản lý nhà cung cấp</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./admin-ui-admin-workspace.html" aria-expanded="false">
+                          <span>
+                              <i class="ti ti-layout-dashboard"></i>
+                          </span>
+                                <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
                     </ul>

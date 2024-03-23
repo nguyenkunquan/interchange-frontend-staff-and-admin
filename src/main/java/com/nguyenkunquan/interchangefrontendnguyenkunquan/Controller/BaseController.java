@@ -12,6 +12,11 @@ public class BaseController {
         return "quotationmanagement/ui-taobaogia";
     }
 
+    @GetMapping("/update-quotation")
+    public String updateQuotation() {
+        return "quotationmanagement/ui-capnhatbaogia";
+    }
+
     @GetMapping("/blog-management")
     public String blogManagement() {
         return "blog/blog-management";
