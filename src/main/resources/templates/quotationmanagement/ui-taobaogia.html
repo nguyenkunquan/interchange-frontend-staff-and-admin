@@ -231,7 +231,7 @@
                                             <td style="width: 75px; text-align: center" colspan="1" data-name="txtProductWidth"></td>
                                             <td style="width: 75px; text-align: center" colspan="1" data-name="txtProductHeight"></td>
                                             <td style="width: 68px; text-align: center" data-name="txtProductMeasureUnit"></td>
-                                            <td style="width: 75px; text-align: center"><input style="width: 60px; text-align: center" type="number" min="0" name="inputProductQuantity"></td>
+                                            <td style="width: 75px; text-align: center"><input style="width: 60px; text-align: center" type="number" min="0" max="10000" name="inputProductQuantity"></td>
                                             <td style="width: 65px; text-align: center" data-name="txtProductUnitPrice"></td>
                                             <td></td>
                                             <td style="text-align: center" data-name="txtProductTotalPrice"></td>
@@ -420,7 +420,7 @@
                 '                                            <td style="width: 75px; text-align: center" colspan="1" data-name="txtProductWidth"></td>' +
                 '                                            <td style="width: 75px; text-align: center" colspan="1" data-name="txtProductHeight"></td>' +
                 '                                            <td style="width: 68px; text-align: center" data-name="txtProductMeasureUnit"></td>' +
-                '                                            <td style="width: 75px; text-align: center"><input style="width: 60px; text-align: center" type="number" min="0" name="inputProductQuantity"></td>' +
+                '                                            <td style="width: 75px; text-align: center"><input style="width: 60px; text-align: center" type="number" min="0" max="10000" name="inputProductQuantity"></td>' +
                 '                                            <td style="width: 65px; text-align: center" data-name="txtProductUnitPrice"></td>' +
                 '                                            <td></td>' +
                 '                                            <td style="text-align: center" data-name="txtProductTotalPrice"></td>' +
@@ -470,7 +470,7 @@
                 '   <td style="width: 75px; text-align: center" colspan="1" data-name="txtProductWidth"></td>\n' +
                 '   <td style="width: 75px; text-align: center" colspan="1" data-name="txtProductHeight"></td>\n' +
                 '   <td style="width: 68px; text-align: center" data-name="txtProductMeasureUnit"></td>\n' +
-                '   <td style="width: 75px; text-align: center"><input style="width: 60px; text-align: center" type="number" min="0" name="inputProductQuantity"></td>\n' +
+                '   <td style="width: 75px; text-align: center"><input style="width: 60px; text-align: center" type="number" min="0" max="10000" name="inputProductQuantity"></td>\n' +
                 '   <td style="width: 65px; text-align: center" data-name="txtProductUnitPrice"></td>\n' +
                 '   <td></td>\n' +
                 '   <td style="text-align: center" data-name="txtProductTotalPrice"></td>\n' +
@@ -563,24 +563,24 @@
                 unitPrice.text((supplierProductDetails.unit_price*1000000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '₫')
                 totalPrice.text((supplierProductDetails.unit_price*1000000*quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '₫')
             } else if(supplierProductDetails.measure_unit_name=="Mét dài") {
-                length.html('<input name="inputLength" type="number" min="0" style="width: 60px; text-align: center" value=""/>')
+                length.html('<input name="inputLength" type="number" min="0" max="10000" style="width: 60px; text-align: center" value=""/>')
                 height.text(supplierProductDetails.pro_height);
                 measureUnit.text('Mét dài');
                 unitPrice.text((supplierProductDetails.unit_price*1000000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '₫')
                 totalPrice.text(0 + '₫')
                 if(supplierProductDetails.is_cus_width==false) {
                     width.text(supplierProductDetails.pro_width);
-                } else width.html('<input name="inputWidth" type="number" min="0" style="width: 60px; text-align: center" value=""/>')
+                } else width.html('<input name="inputWidth" type="number" min="0" max="10000" style="width: 60px; text-align: center" value=""/>')
             } else {
-                length.html('<input name="inputLength" type="number" min="0" style="width: 60px; text-align: center" value=""/>')
+                length.html('<input name="inputLength" type="number" min="0" max="10000" style="width: 60px; text-align: center" value=""/>')
                 measureUnit.text('Mét vuông');
                 unitPrice.text((supplierProductDetails.unit_price*1000000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '₫')
                 totalPrice.text(0 + '₫')
                 if(supplierProductDetails.is_cus_width==true) {
-                    width.html('<input name="inputWidth" type="number" min="0" style="width: 60px; text-align: center" value=""/>')
+                    width.html('<input name="inputWidth" type="number" min="0" max="10000" style="width: 60px; text-align: center" value=""/>')
                     height.text(supplierProductDetails.pro_height);
                 } else {
-                    height.html('<input name="inputHeight" min="0" type="number" style="width: 60px; text-align: center" value=""/>')
+                    height.html('<input name="inputHeight" min="0" max="10000" type="number" style="width: 60px; text-align: center" value=""/>')
                     width.text(supplierProductDetails.pro_width);
                 }
             }
@@ -667,6 +667,12 @@
         $(document).on('input', 'input[type="number"][min="0"]', function() {
             if (parseInt($(this).val()) < 0) {
                 $(this).val(Math.abs($(this).val())) // Nếu giá trị nhập vào là âm, đặt lại giá trị là dương
+            }
+        });
+
+        $(document).on('input', 'input[type="number"][max="10000"]', function() {
+            if (parseInt($(this).val()) > 10000) {
+                $(this).val(10000)
             }
         });
 
@@ -950,7 +956,7 @@
                     '                                            <td style="width: 75px; text-align: center" colspan="1" data-name="txtProductWidth"></td>' +
                     '                                            <td style="width: 75px; text-align: center" colspan="1" data-name="txtProductHeight"></td>' +
                     '                                            <td style="width: 68px; text-align: center" data-name="txtProductMeasureUnit"></td>' +
-                    '                                            <td style="width: 75px; text-align: center"><input style="width: 60px; text-align: center" type="number" min="0" name="inputProductQuantity"></td>' +
+                    '                                            <td style="width: 75px; text-align: center"><input style="width: 60px; text-align: center" type="number" min="0" max="10000" name="inputProductQuantity"></td>' +
                     '                                            <td style="width: 65px; text-align: center" data-name="txtProductUnitPrice"></td>' +
                     '                                            <td></td>' +
                     '                                            <td style="text-align: center" data-name="txtProductTotalPrice"></td>' +
@@ -1020,11 +1026,11 @@
             var cusWidth = roomProducts.productDetail.supplierProduct.product.measureUnit.cusWidth
             var cusHeight = roomProducts.productDetail.supplierProduct.product.measureUnit.cusHeight
             cusLength === false ? tr.find('[data-name="txtProductLength"]').text(roomProducts.productDetail.proLength)
-                                : tr.find('[data-name="txtProductLength"]').html('<input name="inputLength" type="number" min="0" style="width: 60px; text-align: center" value="' + roomProducts.productDetail.proLength +'"/>')
+                                : tr.find('[data-name="txtProductLength"]').html('<input name="inputLength" type="number" min="0" max="10000" style="width: 60px; text-align: center" value="' + roomProducts.productDetail.proLength +'"/>')
             cusWidth === false ? tr.find('[data-name="txtProductWidth"]').text(roomProducts.productDetail.proWidth)
-                                : tr.find('[data-name="txtProductWidth"]').html('<input name="inputWidth" type="number" min="0" style="width: 60px; text-align: center" value="' + roomProducts.productDetail.proWidth +'"/>')
+                                : tr.find('[data-name="txtProductWidth"]').html('<input name="inputWidth" type="number" min="0" max="10000" style="width: 60px; text-align: center" value="' + roomProducts.productDetail.proWidth +'"/>')
             cusHeight === false ? tr.find('[data-name="txtProductHeight"]').text(roomProducts.productDetail.proHeight)
-                                : tr.find('[data-name="txtProductHeight"]').html('<input name="inputHeight" type="number" min="0" style="width: 60px; text-align: center" value="' + roomProducts.productDetail.proHeight +'"/>')
+                                : tr.find('[data-name="txtProductHeight"]').html('<input name="inputHeight" type="number" min="0" max="10000" style="width: 60px; text-align: center" value="' + roomProducts.productDetail.proHeight +'"/>')
             tr.find('[data-name="txtProductMeasureUnit"]').text(roomProducts.productDetail.supplierProduct.product.measureUnit.measureUnitName)
             tr.find('[name="inputProductQuantity"]').val(roomProducts.quantity)
             tr.find('[data-name="txtProductUnitPrice"]').text((roomProducts.productDetail.supplierProduct.unitPrice*1000000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '₫')
