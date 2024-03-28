@@ -490,6 +490,9 @@
             //     let selectProduct = commonParentRow.find('.selectProduct');
             //     selectProduct.trigger('change');
             // });
+            if($(this).prev().find('tbody tr').length > 1) {
+                $(this).prev().prev().prop('disabled', true);
+            }
         });
 
         function fillSelectProductAfterAddNewRecord(newSelectProduct, callback) {
@@ -527,6 +530,10 @@
             $(this).closest('tr').remove();
             parentBody.next().find('.sumOfTotalPrice').text((((getSumOfTotalPrice(parentBody) * 1000)).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '₫');
             getTotalPriceOfAllRoom();
+
+            if(table.find('tbody tr').length === 1) {
+                table.prev().removeAttr('disabled');
+            }
         });
 
         $(document).on('change', '.selectProduct', function() {
@@ -606,6 +613,9 @@
             });
         }
 
+        $('#supplierId').change(function() {
+            $('[name="inputLength"]').trigger('change');
+        });
         $(document).on('change keyup', '[name="inputLength"], [name="inputWidth"], [name="inputHeight"], [name="inputProductQuantity"]', async function () {
             let parentRow = $(this).closest('tr');
             try {
@@ -975,6 +985,9 @@
                 var deleteTable = $('<button name="deleteTable" class="btn btn-primary m-1">Xóa phòng</button>');
                 // Thêm hai phần tử mới vào trước phần tử có id là addNewTable
                 $('#addNewTable').before(addNewRecord, deleteTable);
+                if(addNewRecord.prev().find('tbody tr').length > 1) {
+                    $(addNewRecord).prev().prev().prop('disabled', true);
+                }
             }
         }
 
