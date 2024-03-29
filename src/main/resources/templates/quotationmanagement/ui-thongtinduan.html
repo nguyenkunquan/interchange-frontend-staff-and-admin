@@ -183,6 +183,9 @@
                                         <div>Trạng thái:</div>
                                         <div id="statusMainProject" style="padding-left: 20px;"></div>
                                     </div>
+                                    <div>
+                                        <button id="viewDetail" hidden="hidden" type="button" style="background-color: #64CCC5; width: 219px" class="btn btn-success" data-mdb-ripple-init>Thông tin chi tiết</button>
+                                    </div>
                                 <div class="content-non-inline">
                                     <div style="padding-top: 20px;" class="content-non-inline">Danh sách báo giá:</div>
                                 </div>
@@ -245,6 +248,9 @@
             $('#customerName').text($('#customerName').text() + mainProject.customer.firstName + ' ' + mainProject.customer.lastName);
             $('#customerPhone').text($('#customerPhone').text() + mainProject.customer.phoneNumber);
             $('#statusMainProject').text(getStatusName(mainProject.status))
+            if(mainProject.status>=5) {
+                $('#viewDetail').removeAttr('hidden');
+            }
         }
 
         function getQuotationList() {
@@ -316,6 +322,10 @@
             }
             else window.location.href = '/quotation-information?mainProjectId=' + mainProjectId + '&quotationId=' + quotationId;
         }
+
+        $('#viewDetail').click(function() {
+            window.location.href = '/project-details?mainProjectId=' + mainProjectId;
+        });
 
     </script>
 

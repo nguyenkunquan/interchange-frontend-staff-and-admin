@@ -36,6 +36,10 @@ public class BaseController {
     public String projectInformation() {
         return "quotationmanagement/ui-thongtinduan";
     }
+    @GetMapping("/project-details")
+    public String projectDetails() {
+        return "quotationmanagement/ui-chitietduan";
+    }
 
     @GetMapping("/quotation-information")
     public String quotationInformation() {
