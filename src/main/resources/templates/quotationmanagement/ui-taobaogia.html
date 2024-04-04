@@ -852,7 +852,7 @@
                 success: async function (resp) {
                     fillMainProjectInformation(resp.data);
                     if(await isFirstQuotation(mainProjectId) === false) {
-                        getLastQuotation();
+                        getLastQuotation(resp.data);
                     }
                 }
             });
@@ -904,9 +904,9 @@
             }
         }
 
-        function getLastQuotation() {
+        function getLastQuotation(curQuotation) {
             $.ajax({
-                url: 'http://localhost:8080/api/main-project/last-quotation?mainProjectId=' + mainProjectId,
+                url: 'http://localhost:8080/api/main-project/pre-quotation?mainProjectId=' + mainProjectId +'&preQuotationId=' + curQuotation.pre_quotation_id,
                 method: 'GET',
                 contentType: 'application/json',
                 success: function (resp) {
