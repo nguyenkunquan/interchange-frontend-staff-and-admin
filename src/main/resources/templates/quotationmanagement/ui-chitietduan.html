@@ -215,7 +215,7 @@
                                 <div id="roomsOfProject" class="form-group" style="padding: 20px; border: 4px solid #c6c7c8; margin-bottom: 10px">
                                 </div>
 
-                                <button onclick="updateProject()" type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Cập nhật</button>
+                                <button onclick="updateProject()" type="button" class="btn btn-primary" >Cập nhật</button>
                             </form>
                         </div>
                     </div>
@@ -418,7 +418,7 @@
         let rooms = finalQuotation.project.rooms;
         let str = "";
         for (let i = 0; i < rooms.length; i++) {
-            str += '<div class="form-group roomName" style="padding-bottom: 10px">\n' +
+            str = '<div class="form-group roomName" style="padding-bottom: 10px">\n' +
                 '                                        <label for="roomNameInput' + (i+1) + '">Tên phòng</label>\n' +
                 '                                        <input type="text" class="form-control" id="roomNameInput' + (i+1) + '" aria-describedby="emailHelp" placeholder="Tên phòng" value="' + rooms[i].roomName + '">\n' +
                 '                                    </div>\n' +
@@ -442,7 +442,6 @@
     }
 
     function updateProject() {
-        console.log($('#projectStatus').val())
         if(parseInt($('#projectStatus').val()) === 6) {
             if (checkInput() === false) return;
         }
@@ -469,6 +468,7 @@
             data: JSON.stringify(quotationDTO),
             success: function (resp) {
                 console.log(resp);
+                $('#exampleModal').modal('show');
                 if(parseInt($('#projectStatus').val()) === 6) {updateImageRooms()}
             }, error:function (err) {
                 console.log(err)
