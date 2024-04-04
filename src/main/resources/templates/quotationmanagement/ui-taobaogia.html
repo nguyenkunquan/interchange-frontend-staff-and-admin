@@ -854,6 +854,9 @@
                     if(await isFirstQuotation(mainProjectId) === false) {
                         getLastQuotation(resp.data);
                     }
+                    else {
+                        if (isFirstQuotationHasInformation()) {getQuotationByItsInformation()}
+                    }
                 }
             });
         }
@@ -902,6 +905,33 @@
                 console.error(error);
                 return false; // Xử lý lỗi và trả về false nếu có lỗi xảy ra
             }
+        }
+
+        function isFirstQuotationHasInformation() {
+            let flag = false;
+            $.ajax({
+                url: 'http://localhost:8080/api/quotation/findEagerById?quotationId=' + quotationId,
+                method: 'GET',
+                contentType: 'application/json',
+                async: false,
+                success: function (resp) {
+                    if(resp.data.project !== null) {
+                        flag = true;
+                    }
+                }
+            });
+            return flag;
+        }
+
+        function getQuotationByItsInformation() {
+            $.ajax({
+                url: 'http://localhost:8080/api/quotation/findEagerById?quotationId=' + quotationId,
+                method: 'GET',
+                contentType: 'application/json',
+                success: function (resp) {
+                    fillQuotationByLastQuotation(resp.data)
+                }
+            });
         }
 
         function getLastQuotation(curQuotation) {
