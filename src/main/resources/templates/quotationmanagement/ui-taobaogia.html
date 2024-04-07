@@ -772,12 +772,27 @@
                 })
                 mainProjectDTO.quotations[0].project.rooms.push(room);
             })
-            SaveMainProject(mainProjectDTO)
+            if(isWillUsingSaveFunction)SaveMainProject(mainProjectDTO)
+            else UpdateMainProject(mainProjectDTO)
         }
 
         function SaveMainProject(mainProjectDTO) {
             $.ajax({
                 url: 'http://localhost:8080/api/quotation/save',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(mainProjectDTO),
+                success:function (resp) {
+                    console.log(resp)
+                }, error:function (err) {
+                    console.log(err)
+                }
+            })
+        }
+
+        function UpdateMainProject(mainProjectDTO) {
+            $.ajax({
+                url: 'http://localhost:8080/api/quotation/update',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(mainProjectDTO),
@@ -855,7 +870,10 @@
                         getLastQuotation(resp.data);
                     }
                     else {
-                        if (isFirstQuotationHasInformation()) {getQuotationByItsInformation()}
+                        if (isFirstQuotationHasInformation()) {
+                            getQuotationByItsInformation()
+                            isWillUsingSaveFunction = false;
+                        }
                     }
                 }
             });
@@ -907,6 +925,7 @@
             }
         }
 
+        let isWillUsingSaveFunction = true;
         function isFirstQuotationHasInformation() {
             let flag = false;
             $.ajax({
